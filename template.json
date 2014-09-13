@@ -1,0 +1,108 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/postinstall.sh",
+        "scripts/puppet.sh",
+        "scripts/chef.sh",
+        "scripts/cleanup.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "pfexec bash -l {{.Path}}"
+        },
+        "vmware-iso": {
+          "execute_command": "pfexec bash -l {{.Path}}"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "e<wait>",
+        "e<wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "- nowin install -B install_media=cdrom<enter><wait>",
+        "b<wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 65140,
+      "floppy_files": [
+        "floppy/sysidcfg",
+        "floppy/rules",
+        "floppy/rules.ok",
+        "floppy/begin",
+        "floppy/profile",
+        "floppy/finish"
+      ],
+      "guest_os_type": "Solaris_64",
+      "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
+      "iso_checksum_type": "md5",
+      "iso_url": "file:///Users/tnarik/Desktop/sol-10-u11-ga-x86-dvd.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/usr/sbin/poweroff' > shutdown.sh; pfexec bash -l shutdown.sh",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "768"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hwvirtex",
+          "on"
+        ]
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "e<wait>",
+        "e<wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "- nowin install -B install_media=cdrom<enter><wait>",
+        "b<wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 65140,
+      "floppy_files": [
+        "floppy/sysidcfg",
+        "floppy/rules",
+        "floppy/rules.ok",
+        "floppy/begin",
+        "floppy/profile",
+        "floppy/finish"
+      ],
+      "guest_os_type": "solaris10-64",
+      "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
+      "iso_checksum_type": "md5",
+      "iso_url": "file:///Users/tnarik/Desktop/sol-10-u11-ga-x86-dvd.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/usr/sbin/poweroff' > shutdown.sh; pfexec bash -l shutdown.sh",
+      "vmx_data": {
+        "memsize": "768",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      }
+    }
+  ]
+}

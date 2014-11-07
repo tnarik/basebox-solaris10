@@ -10,7 +10,6 @@
       "scripts": [
         "scripts/postinstall.sh",
         "scripts/vmtools.sh",
-        "scripts/chef.sh",
         "scripts/cleanup.sh"
       ],
       "override": {
@@ -47,7 +46,7 @@
         "floppy/rules",
         "floppy/rules.ok",
         "floppy/begin",
-        "floppy/profile",
+        "floppy/minimal/profile",
         "floppy/finish"
       ],
       "headless": false,

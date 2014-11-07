@@ -1,11 +1,11 @@
 #!/bin/sh
 
+VAGRANTUSER='vagrant'
+
 ## Tag version
 date > /etc/vagrant_box_build_time
 
-
-
-## Add the opencsw package site
+cat## Add the opencsw package site
 PATH=/usr/bin:/usr/sbin:$PATH
 export PATH
 
@@ -23,23 +23,25 @@ ln -s /etc/opt/csw/sudoers /etc/sudoers
 test -f /etc/sudoers && grep -v "vagrant" "/etc/sudoers" 1>/dev/null 2>&1 && echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
-
 # Installing vagrant keys
 mkdir ${HOME}/.ssh
 chmod 700 ${HOME}/.ssh
 cd ${HOME}/.ssh
 /opt/csw/bin/wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub' -O authorized_keys
-chown -R vagrant:other ${HOME}/.ssh
+chown -R ${VAGRANTUSER}:${VAGRANTUSER} ${HOME}/.ssh
+
+#Let's try to get the JDS desktop by default
+mkdir -p /export/home/${VAGRANTUSER}/.dt
+echo "/usr/dt/config/Xsession.jds" > /export/home/${VAGRANTUSER}/.dt/lastsession
 
 # Speed up SSH by disabling DNS checks for clients
 echo "LookupClientHostnames=no" >> /etc/ssh/sshd_config
 
 
-
-## Ruby
-/opt/csw/bin/pkgutil -y -i CSWgsed
-/opt/csw/bin/pkgutil -y -i CSWruby18-gcc4 CSWruby18-dev CSWruby18
-/opt/csw/bin/pkgutil -y -i CSWrubygems
+## Useful tools
+/opt/csw/bin/pkgutil -y -i CSWgsed CSWtree CSWggrep CSWgedit
+#/opt/csw/bin/pkgutil -y -i CSWruby19-gcc4 CSWruby19-dev CSWruby19
+#/opt/csw/bin/pkgutil -y -i CSWrubygems
 
 
 #/opt/csw/bin/pkgutil -y -i CSWreadline
@@ -54,37 +56,19 @@ echo "LookupClientHostnames=no" >> /etc/ssh/sshd_config
 #/opt/csw/sbin/alternatives --set rbconfig18 /opt/csw/lib/ruby/1.8/i386-solaris2.9/rbconfig.rb.gcc4
 
 
-## Fix the shells to include the /opt/csw directories
-/opt/csw/bin/gsed -i -e 's#^\#PATH=.*$#PATH=/opt/csw/bin:/usr/sbin:/usr/bin:/usr/ucb#g' \
-    -e 's#^\#SUPATH=.*$#SUPATH=/opt/csw/bin:/usr/sbin:/usr/bin:/usr/ucb#g' /etc/default/login
-/opt/csw/bin/gsed -i -e 's#^\#PATH=.*$#PATH=/opt/csw/bin:/usr/sbin:/usr/bin:/usr/ucb#g' \
-    -e 's#^\#SUPATH=.*$#SUPATH=/opt/csw/bin:/usr/sbin:/usr/bin:/usr/ucb#g' /etc/default/su
+## Fix the shells to include the /opt/csw and /usr/xpg4 directories
+/opt/csw/bin/gsed -i -e 's#^\#PATH=.*$#PATH=/opt/csw/bin:/usr/xpg4/bin:/usr/sbin:/usr/bin:/usr/ucb#g' \
+    -e 's#^\#SUPATH=.*$#SUPATH=/opt/csw/bin:/usr/xpg4/bin:/usr/sbin:/usr/bin:/usr/ucb#g' /etc/default/login
+/opt/csw/bin/gsed -i -e 's#^\#PATH=.*$#PATH=/opt/csw/bin:/usr/xpg4/bin:/usr/sbin:/usr/bin:/usr/ucb#g' \
+    -e 's#^\#SUPATH=.*$#SUPATH=/opt/csw/bin:/usr/xpg4/bin:/usr/sbin:/usr/bin:/usr/ucb#g' /etc/default/su
 
 
 
 ## Add the CSW libraries to the LD path
 /usr/bin/crle -u -l /opt/csw/lib
 
-
-
-## Installing the virtualbox guest additions (from the ISO)
-#
-VBOX_VERSION=`cat $HOME/.vbox_version`
-cd /tmp
-mkdir vboxguestmnt
-mount -F hsfs -o ro `lofiadm -a $HOME/VBoxGuestAdditions_${VBOX_VERSION}.iso` /tmp/vboxguestmnt
-cp /tmp/vboxguestmnt/VBoxSolarisAdditions.pkg /tmp/.
-/usr/bin/pkgtrans VBoxSolarisAdditions.pkg . all
-yes|/usr/sbin/pkgadd -d . SUNWvboxguest
-
-umount /tmp/vboxguestmnt
-lofiadm -d /dev/lofi/1
-
-
-
 ## Add loghost to /etc/hosts
 /opt/csw/bin/gsed -i -e 's/localhost/localhost loghost/g' /etc/hosts
-
 
 
 exit

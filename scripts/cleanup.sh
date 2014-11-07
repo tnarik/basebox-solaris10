@@ -2,7 +2,6 @@
 
 # Standard clean up (when called during the build)
 if [ $# -eq 0 ]; then
-  rm -rf VBoxGuestAdditions_*.iso
   { sleep 1; /usr/sbin/reboot; } >/dev/null &
   exit 0
 fi

@@ -1,10 +1,5 @@
 #!/bin/sh
 
-VAGRANTUSER='vagrant'
-
-## Tag version
-date > /etc/vagrant_box_build_time
-
 ## Add the opencsw package site
 PATH=/usr/bin:/usr/sbin:$PATH
 export PATH
@@ -21,18 +16,6 @@ ln -s /etc/opt/csw/sudoers /etc/sudoers
 
 # Add 'vagrant' to sudoers as well
 test -f /etc/sudoers && grep -v "vagrant" "/etc/sudoers" 1>/dev/null 2>&1 && echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-
-# Installing vagrant keys
-mkdir ${HOME}/.ssh
-chmod 700 ${HOME}/.ssh
-cd ${HOME}/.ssh
-/opt/csw/bin/wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub' -O authorized_keys
-chown -R ${VAGRANTUSER}:${VAGRANTUSER} ${HOME}/.ssh
-
-#Let's try to get the JDS desktop by default
-mkdir -p /export/home/${VAGRANTUSER}/.dt
-echo "/usr/dt/config/Xsession.jds" > /export/home/${VAGRANTUSER}/.dt/lastsession
 
 # Speed up SSH by disabling DNS checks for clients
 echo "LookupClientHostnames=no" >> /etc/ssh/sshd_config
@@ -69,6 +52,3 @@ echo "LookupClientHostnames=no" >> /etc/ssh/sshd_config
 
 ## Add loghost to /etc/hosts
 /opt/csw/bin/gsed -i -e 's/localhost/localhost loghost/g' /etc/hosts
-
-
-exit

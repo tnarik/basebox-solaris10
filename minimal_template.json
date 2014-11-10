@@ -9,17 +9,18 @@
       "type": "shell",
       "scripts": [
         "scripts/postinstall.sh",
+        "scripts/vagrant.sh",
         "scripts/vmtools.sh",
         "scripts/cleanup.sh"
       ],
       "override": {
-        "virtualbox-iso": {
+        "vagrant_virtualbox": {
           "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         },
-        "vmware-iso": {
+        "vagrant_vmware": {
           "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         },
-        "parallels-iso": {
+        "vagrant_parallels": {
           "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         }
       }
@@ -28,12 +29,13 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{ user `output_base` }}/packer_{{ .BuildName }}_{{ .Provider }}.box",
+      "output": "{{ user `output_base` }}/solaris10_{{ .BuildName }}.box",
       "keep_input_artifact": true
     }
   ],
   "builders": [
     {
+      "name": "vagrant_virtualbox",
       "type": "virtualbox-iso",
       "boot_command": [
         "e<wait>",
@@ -72,6 +74,7 @@
       ]
     },
     {
+      "name": "vagrant_vmware",
       "type": "vmware-iso",
       "boot_command": [
         "e<wait>",
@@ -110,6 +113,7 @@
       }
     },
     {
+      "name": "vagrant_parallels",
       "type": "parallels-iso",
       "boot_command": [
         "e<wait>",

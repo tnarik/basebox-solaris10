@@ -10,15 +10,17 @@
       "scripts": [
         "scripts/postinstall.sh",
         "scripts/vmtools.sh",
-        "scripts/chef.sh",
         "scripts/cleanup.sh"
       ],
       "override": {
         "virtualbox-iso": {
-          "execute_command": "{{ .Vars }} pfexec bash -l {{.Path}}"
+          "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         },
         "vmware-iso": {
-          "execute_command": "{{ .Vars }} pfexec bash -l {{.Path}}"
+          "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
+        },
+        "parallels-iso": {
+          "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         }
       }
     }
@@ -26,7 +28,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{user `output_base`}}/packer_{{.BuildName}}_{{.Provider}}.box",
+      "output": "{{ user `output_base` }}/packer_{{ .BuildName }}_{{ .Provider }}.box",
       "keep_input_artifact": true
     }
   ],
@@ -50,23 +52,23 @@
         "floppy/profile",
         "floppy/finish"
       ],
-      "headless": false,
+      "headless": true,
       "guest_os_type": "Solaris_64",
-      "iso_checksum": "{{user `ISOChecksum`}}",
+      "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",
-      "iso_url": "{{user `ISOUrl`}}",
-      "output_directory": "{{user `output_base`}}/output-virtualbox-iso",
+      "iso_url": "{{ user `ISOUrl` }}",
+      "output_directory": "{{ user `output_base` }}/output-virtualbox-iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '/usr/sbin/poweroff' > shutdown.sh; pfexec bash -l shutdown.sh",
+      "shutdown_command": "pfexec /usr/sbin/poweroff",
       "guest_additions_path": "VBoxGuestAdditions.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "768" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ],
-        [ "modifyvm", "{{.Name}}", "--hwvirtex", "on" ]
+        [ "modifyvm", "{{ .Name }}", "--memory", "768" ],
+        [ "modifyvm", "{{ .Name }}", "--cpus", "1" ],
+        [ "modifyvm", "{{ .Name }}", "--hwvirtex", "on" ]
       ]
     },
     {
@@ -88,17 +90,17 @@
         "floppy/profile",
         "floppy/finish"
       ],
-      "headless": false,
+      "headless": true,
       "guest_os_type": "solaris10-64",
-      "iso_checksum": "{{user `ISOChecksum`}}",
+      "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",
-      "iso_url": "{{user `ISOUrl`}}",
-      "output_directory": "{{user `output_base`}}/output-vmware-iso",
+      "iso_url": "{{ user `ISOUrl` }}",
+      "output_directory": "{{ user `output_base` }}/output-vmware-iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '/usr/sbin/poweroff' > shutdown.sh; pfexec bash -l shutdown.sh",
+      "shutdown_command": "pfexec /usr/sbin/poweroff",
       "tools_upload_flavor": "solaris",
       "tools_upload_path": "VMWareTools.iso",
       "vmx_data": {
@@ -106,6 +108,44 @@
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
+    },
+    {
+      "type": "parallels-iso",
+      "boot_command": [
+        "e<wait>",
+        "e<wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "- nowin install -B install_media=cdrom<enter><wait>",
+        "b<wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 65140,
+      "floppy_files": [
+        "floppy/sysidcfg",
+        "floppy/rules",
+        "floppy/rules.ok",
+        "floppy/begin",
+        "floppy/profile",
+        "floppy/finish"
+      ],
+      "guest_os_type": "solaris-10",
+      "iso_checksum": "{{ user `ISOChecksum` }}",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{ user `ISOUrl` }}",
+      "output_directory": "{{ user `output_base` }}/output-parallels-iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "pfexec /usr/sbin/poweroff",
+      "parallels_tools_flavor": "lin",
+      "parallels_tools_guest_path": "prl-tools.iso",
+      "hard_drive_interface": "ide",
+      "prlctl": [
+        ["set", "{{ .Name }}", "--memsize", "768"],
+        ["set", "{{ .Name }}", "--cpus", "1"],
+        ["set", "{{ .Name }}", "--device-del", "cdrom0", "--detach-only"] 
+      ]
     }
   ]
 }

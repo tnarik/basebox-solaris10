@@ -5,7 +5,7 @@ VAGRANTUSER='vagrant'
 ## Tag version
 date > /etc/vagrant_box_build_time
 
-cat## Add the opencsw package site
+## Add the opencsw package site
 PATH=/usr/bin:/usr/sbin:$PATH
 export PATH
 

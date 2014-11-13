@@ -16,8 +16,11 @@ vmware*)
   mkdir vmwaretoolsmnt
   mount -F hsfs -o ro `lofiadm -a /export/home/vagrant/VMWareTools.iso` /tmp/vmwaretoolsmnt
   gunzip -c /tmp/vmwaretoolsmnt/vmware-solaris-tools.tar.gz | tar xf -
+  # Fix for some versions of VMware as per http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2057912 (2057912)
+  /opt/csw/bin/gsed -i -e 's#!/bin/sh#!/bin/bash#g' ./vmware-tools-distrib/installer/services.sh
+  # Continue installation
   ./vmware-tools-distrib/vmware-install.pl -d
-
+  
   umount /tmp/vmwaretoolsmnt
   lofiadm -d /export/home/vagrant/VMWareTools.iso
   rm -rf /export/home/vagrant/VMWareTools.iso

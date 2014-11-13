@@ -9,17 +9,18 @@
       "type": "shell",
       "scripts": [
         "scripts/postinstall.sh",
+        "scripts/vagrant.sh",
         "scripts/vmtools.sh",
         "scripts/cleanup.sh"
       ],
       "override": {
-        "virtualbox-iso": {
+        "virtualbox": {
           "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         },
-        "vmware-iso": {
+        "vmware": {
           "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         },
-        "parallels-iso": {
+        "parallels": {
           "execute_command": "{{ .Vars }} pfexec bash -l '{{ .Path }}'"
         }
       }
@@ -28,12 +29,13 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{ user `output_base` }}/packer_{{ .BuildName }}_{{ .Provider }}.box",
+      "output": "{{ user `output_base` }}/vagrant/solaris10-{{ .BuildName }}.box",
       "keep_input_artifact": true
     }
   ],
   "builders": [
     {
+      "name": "virtualbox",
       "type": "virtualbox-iso",
       "boot_command": [
         "e<wait>",
@@ -57,7 +59,7 @@
       "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",
       "iso_url": "{{ user `ISOUrl` }}",
-      "output_directory": "{{ user `output_base` }}/output-virtualbox-iso",
+      "output_directory": "{{ user `output_base` }}/output-virtualbox",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -72,6 +74,7 @@
       ]
     },
     {
+      "name": "vmware",
       "type": "vmware-iso",
       "boot_command": [
         "e<wait>",
@@ -95,7 +98,7 @@
       "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",
       "iso_url": "{{ user `ISOUrl` }}",
-      "output_directory": "{{ user `output_base` }}/output-vmware-iso",
+      "output_directory": "{{ user `output_base` }}/output-vmware",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -110,6 +113,7 @@
       }
     },
     {
+      "name": "parallels",
       "type": "parallels-iso",
       "boot_command": [
         "e<wait>",
@@ -132,7 +136,7 @@
       "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",
       "iso_url": "{{ user `ISOUrl` }}",
-      "output_directory": "{{ user `output_base` }}/output-parallels-iso",
+      "output_directory": "{{ user `output_base` }}/output-parallels",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,

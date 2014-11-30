@@ -147,8 +147,7 @@
       "hard_drive_interface": "ide",
       "prlctl": [
         ["set", "{{ .Name }}", "--memsize", "768"],
-        ["set", "{{ .Name }}", "--cpus", "1"],
-        ["set", "{{ .Name }}", "--device-del", "cdrom0", "--detach-only"] 
+        ["set", "{{ .Name }}", "--cpus", "1"]
       ]
     }
   ]

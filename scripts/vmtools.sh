@@ -26,4 +26,7 @@ vmware*)
   rm -rf /export/home/vagrant/VMWareTools.iso
   rm -rf vmware-tools-distrib
   ;;
+parallels*)
+  # Not supported
+  ;;
 esac

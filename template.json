@@ -142,8 +142,7 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "pfexec /usr/sbin/poweroff",
-      "parallels_tools_flavor": "lin",
-      "parallels_tools_guest_path": "prl-tools.iso",
+      "parallels_tools_mode": "disable",
       "hard_drive_interface": "ide",
       "prlctl": [
         ["set", "{{ .Name }}", "--memsize", "768"],

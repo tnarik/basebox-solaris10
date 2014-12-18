@@ -120,4 +120,4 @@ When creating a vagrant box base on the VMware provider, the `pcislotnumber` nee
 vb.vmx["ethernet0.pcislotnumber"] = "33"
 ```
 
-It looks like the Vagrant VMware Plugin uses a template to recreate the vmx file (or at least in some conditions), and this messes up with the interface names, resulting in a non-networked box.  
+It looks like the Vagrant VMware Fusion Plugin uses a template to recreate the vmx file (or at least in some conditions), and this messes up with the interface names, resulting in a non-networked box.  

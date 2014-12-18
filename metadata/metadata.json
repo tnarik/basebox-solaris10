@@ -1,0 +1,21 @@
+{
+  "name": "tnarik/solaris10",
+  "description": "This box contains Solaris 10",
+  "version": "0.0.1",
+  "provider": "virtualbox",
+  "versions": [{
+    "version": "0.0.1",
+    "status": "active",
+    "providers": [{
+      "name": "virtualbox",
+      "url": "file:///Users/tnarik/Desktop/out2/vagrant/solaris10-virtualbox.box"
+    },{
+      "name": "vmware_desktop",
+       "url": "file:///Users/tnarik/Desktop/out2/vagrant/solaris10-vmware.box"
+    },{
+      "name": "parallels",
+       "url": "file:///Users/tnarik/Desktop/out2/vagrant/solaris10-parallels.box"
+    }
+    ]
+  }]
+}

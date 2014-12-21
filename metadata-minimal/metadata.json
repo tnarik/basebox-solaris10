@@ -1,10 +1,10 @@
 {
   "name": "tnarik/solaris10-minimal",
   "description": "This box contains Solaris 10",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "provider": "virtualbox",
   "versions": [{
-    "version": "0.0.1",
+    "version": "0.0.2",
     "status": "active",
     "providers": [{
       "name": "virtualbox",

@@ -110,6 +110,12 @@ If you don't need or want the version support, you can also add the baseboxes di
 vagrant box add --name tnarik/solaris10 "${OUTPUT}/vagrant/solaris10-vmware.box" --force
 ```
 
+### Speed up testing (via Test Kitchen)
+
+In order to generate a box with Chef installed, so that Test Kitchen doesn't attempt downloading/installing Chef everytime, you can use the `generate_with_chef.sh` script to produce a version of the box of your choice with Chef installed.
+
+Just take a look at the script and modify to use the base box you wish.
+
 
 ## Caveats
 ### VMWare

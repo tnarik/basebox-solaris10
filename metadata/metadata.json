@@ -1,7 +1,7 @@
 {
   "name": "tnarik/solaris10",
   "description": "This box contains Solaris 10",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "provider": "virtualbox",
   "versions": [{
     "version": "0.0.2",

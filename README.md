@@ -116,6 +116,13 @@ In order to generate a box with Chef installed, so that Test Kitchen doesn't att
 
 Just take a look at the script and modify to use the base box you wish.
 
+## Development
+
+### Versioning
+
+Versioning of the virtual machines takes place via the `metadata.json`. These versions should be linked to git tags, but don't expect to find version `0.0.1` there.
+
+Between versions, the `metadata.json` files could reflect any version number (released version or future version) but should reflect the future one (the one being developed, even if there is no active development on it).
 
 ## Caveats
 ### VMWare

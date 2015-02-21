@@ -32,19 +32,19 @@ Three different templates are provided:
 * `minimal_template.json` : this is a minimal installation of Solaris 10, without a GUI.
 
 ```
- packer build -var 'output_base=/Users/tnarik/Desktop/out2' minimal_template.json
+ packer build -var 'output_base=/Users/tnarik/Desktop/output' minimal_template.json
 ```
 
 * `template.json` : this is a quite complete installation of Solaris 10, with a full loaded GUI.
 
 ```
- packer build -var 'output_base=/Users/tnarik/Desktop/out2' template.json
+ packer build -var 'output_base=/Users/tnarik/Desktop/output' template.json
 ```
 
 * `reduced_template.json` : this is a reduced installation of Solaris 10, with a functional GUI (this is not yet completed).
 
 ```
- packer build -var 'output_base=/Users/tnarik/Desktop/out2' reduced_template.json
+ packer build -var 'output_base=/Users/tnarik/Desktop/output' reduced_template.json
 ```
 
 ### Builders
@@ -68,7 +68,7 @@ If you are going to do several iterations of testing, it is advisable creating a
 Typically you would want to select one of the templates building statements and limit the execution to a number of builders via `-only=`, as in:
 
 ```
-OUTPUT="/Users/tnarik/Desktop/out2"
+OUTPUT="${HOME}/Desktop/output"
 packer build -force -only=virtualbox,vmware -var "output_base=${OUTPUT}" template.json
 ```
 
@@ -114,7 +114,7 @@ vagrant box add --name tnarik/solaris10 "${OUTPUT}/vagrant/solaris10-vmware.box"
 
 In order to generate a box with Chef installed, so that Test Kitchen doesn't attempt downloading/installing Chef everytime, you can use the `generate_with_chef.sh` script to produce a version of the box of your choice with Chef installed.
 
-Just take a look at the script and modify to use the base box you wish.
+Just take a look at the script and modify to use the base box you wish. This script relies on the basebox being installed in your system.
 
 ## Development
 

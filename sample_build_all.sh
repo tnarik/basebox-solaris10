@@ -1,4 +1,4 @@
-OUTPUT="/Users/tnarik/Desktop/out2"
+OUTPUT="${HOME}/Desktop/output"
 packer build -force -only=virtualbox,vmware -var "output_base=${OUTPUT}" minimal_template.json
 packer build -force -only=parallels -var "output_base=${OUTPUT}" minimal_template.json
 packer build -force -only=virtualbox,vmware -var "output_base=${OUTPUT}" template.json

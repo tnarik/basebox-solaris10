@@ -4,17 +4,17 @@
   "version": "0.0.3",
   "provider": "virtualbox",
   "versions": [{
-    "version": "0.0.2",
+    "version": "0.0.3",
     "status": "active",
     "providers": [{
       "name": "virtualbox",
-      "url": "file:///Users/tnarik/Desktop/out2/vagrant/solaris10-minimal-virtualbox.box"
+      "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-minimal-virtualbox.box"
     },{
       "name": "vmware_desktop",
-       "url": "file:///Users/tnarik/Desktop/out2/vagrant/solaris10-minimal-vmware.box"
+       "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-minimal-vmware.box"
     },{
       "name": "parallels",
-       "url": "file:///Users/tnarik/Desktop/out2/vagrant/solaris10-minimal-parallels.box"
+       "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-minimal-parallels.box"
     }
     ]
   }]

@@ -17,5 +17,5 @@ chown -R ${VAGRANTUSER}:${VAGRANTUSER} ${HOME}/.ssh
 
 
 #Let's try to get the JDS desktop by default
-mkdir -p /export/home/${VAGRANTUSER}/.dt
-echo "/usr/dt/config/Xsession.jds" > /export/home/${VAGRANTUSER}/.dt/lastsession
+mkdir -p ${HOME}/.dt
+echo "/usr/dt/config/Xsession.jds" > ${HOME}/.dt/lastsession

@@ -33,3 +33,13 @@ cat /cdrom/Solaris_10/Product/SUNWwbcor/reloc/etc/security/prof_attr >> /a/etc/s
 
 # Assign it to 'vagrant'
 chroot /a /usr/sbin/usermod -P'Primary Administrator' ${VAGRANTUSER}
+
+# Make /export/home available under /home (another option is disabling automounter)
+echo "share -F nfs -d \"Home Directories\" /export/home" >> /a/etc/dfs/dfstab 
+chroot /a /usr/sbin/shareall
+chroot /a /usr/sbin/exportfs
+echo "*       localhost:/export/home/&" >> /a/etc/auto_home
+chroot /a /usr/sbin/svcadm enable autofs
+
+# Reset the VAGARANTUSER home
+chroot /a /usr/sbin/usermod -d /home/${VAGRANTUSER} ${VAGRANTUSER}

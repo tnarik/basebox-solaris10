@@ -39,3 +39,9 @@ package      SUNWxcu4 add
 
 # "Iconv modules for UTF-8 Locale" (required for Guest additions)
 package      SUNWuiu8 add
+
+# Adding font packages (needed for CSWXvfb)
+package      SUNWxwfnt add
+# Adding Motif RunTime Kit (needed by buildear)
+package      SUNWmfrun add
+package      SUNWxwplt add

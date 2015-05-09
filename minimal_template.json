@@ -93,7 +93,7 @@
         "floppy/minimal/profile",
         "floppy/finish"
       ],
-      "headless": false,
+      "headless": true,
       "guest_os_type": "solaris10-64",
       "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",

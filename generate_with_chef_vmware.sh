@@ -14,6 +14,7 @@ end
 EOF
 
 vagrant up
+vagrant halt
 MACHINE_FOLDER=$(cat ".vagrant/machines/default/vmware_fusion/id" | sed -e 's/\/[^\/]*$//g')
 rm -rf package
 mkdir -p package
@@ -40,7 +41,8 @@ Vagrant.configure("2") do |config|
 end
 EOF
 
-vagrant up 
+vagrant up
+vagrant halt
 MACHINE_FOLDER=$(cat ".vagrant/machines/default/vmware_fusion/id" | sed -e 's/\/[^\/]*$//g')
 rm -rf package
 mkdir -p package

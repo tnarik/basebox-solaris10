@@ -11,4 +11,4 @@ end
 EOF
 
 vagrant up && vagrant package && vagrant destroy -f
-vagrant box add --name tnarik/solaris10-minimal-with-chef package.box
+vagrant box add --name tnarik/solaris10-u8-minimal-with-chef package.box

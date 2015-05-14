@@ -25,7 +25,7 @@ cd package
 /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k disk.vmdk
 tar cvzf package.box ./*
 vagrant destroy -f
-vagrant box add --name tnarik/solaris10-minimal-with-chef package.box
+vagrant box add --name tnarik/solaris10-u8-minimal-with-chef package.box
 
 rm Vagrantfile
 cat <<EOF > Vagrantfile
@@ -54,4 +54,4 @@ cd package
 /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k disk.vmdk
 tar cvzf package.box ./*
 vagrant destroy -f
-vagrant box add --name tnarik/solaris10-with-chef package.box
+vagrant box add --name tnarik/solaris10-u8-full-with-chef package.box

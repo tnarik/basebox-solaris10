@@ -8,13 +8,16 @@ This set of templates and configuration files is meant to be used with [Packer](
 
 ## Obtain the ISO image
 
-Due to the distribution methods of Solaris, you will need to download this image manually as there is no automated way to do it.
+Due to the distribution methods of Solaris, you will need to download these images manually as there is no automated way to do it.
 
-You can find it from [http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html](http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html)
+You can find the latest from [http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html](http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html)
 
-The version tested is 1/13 (Oracle Solaris 10, x86).
+Version tested are:
 
-To use a different version you should change the iso filename and the checksum.
+ * 1/13 (Oracle Solaris 10, x86).
+ * 10/09 (Oracle Solaris 10, x86).
+
+To use a different version you should change the iso filename and the checksum. This can be added to `<update version>.json` files such as `u8.json`.
 
 ## Provider setup
 
@@ -27,25 +30,20 @@ After this is done, you can either abort the instance creation process or delete
 
 ## Templates
 
-Three different templates are provided:
+Initially three different templates were provided, but the building process has been modified to use a single one with some variables that select Solaris profiles and names:
 
-* `minimal_template.json` : this is a minimal installation of Solaris 10, without a GUI.
+ * `template.json` : installation of Solaris 10, using the default update (u11) and distro (full, with a full loaded GUI).
 
-```
- packer build -var 'output_base=/Users/tnarik/Desktop/output' minimal_template.json
-```
+   ```
+   packer build -var 'output_base=/Users/tnarik/Desktop/output' template.json
+   ```
 
-* `template.json` : this is a quite complete installation of Solaris 10, with a full loaded GUI.
+   To select a different update level or distribution:
 
-```
- packer build -var 'output_base=/Users/tnarik/Desktop/output' template.json
-```
+   ```
+    -var-file=u8.json -var ""distro=minimal"
+   ```
 
-* `reduced_template.json` : this is a reduced installation of Solaris 10, with a functional GUI (this is not yet completed).
-
-```
- packer build -var 'output_base=/Users/tnarik/Desktop/output' reduced_template.json
-```
 
 ### Builders
 
@@ -54,16 +52,16 @@ Three different templates are provided:
 
 ## Metadata
 
-There is a set of metadata definitions for version local support (without using VagrantCloud/Atlas).
+There is a metadata definition for version local support (without using VagrantCloud/Atlas), based on ERB templates.
 
-These can be used as base, adapting the `url` paths to you working environment.
+The resulting metadata defintions can be used as base, adapting the `url` paths to you working environment.
 
 
 ## Advice
 
-### Speed up testing
+### Speed up development/testing
 
-If you are going to do several iterations of testing, it is advisable creating a script that triggers the whole chain of builds and setup.
+If you are modifying this images and going through several iterations of testing, it is advisable creating a script that triggers the whole chain of builds and setup.
 
 Typically you would want to select one of the templates building statements and limit the execution to a number of builders via `-only=`, as in:
 
@@ -72,30 +70,23 @@ OUTPUT="${HOME}/Desktop/output"
 packer build -force -only=virtualbox,vmware -var "output_base=${OUTPUT}" template.json
 ```
 
-If you want to use version support directly from your filesystem, you can copy the metadata descriptions via: 
+If you want to use version support directly from your filesystem, you can generate the metadata descriptions via: 
 
 ```
 mkdir -p "${OUTPUT}/solaris10/"
-cp metadata/metadata.json "${OUTPUT}/solaris10/."
+UPDATE="u11" DISTRO="full" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
 ```
 
-, or:
-
-```
-mkdir -p "${OUTPUT}/solaris10-minimal/"
-cp metadata/metadata.json "${OUTPUT}/solaris10-minimal/."
-```
-
-You can find the `sample_build_all.sh` script as a sample.
+You can find the `sample_build.sh` and `sample_build_all.sh` script as examples on the whole generation chain.
 
 
 As a result, you would be able to add the boxes to vagrant via the metadata descriptor, selecting the desired provider directly during the import.
 
 ```
-vagrant box add "${OUTPUT}/solaris10/metadata.json"
+vagrant box add "${OUTPUT}/solaris10-u11-full/metadata.json"
 mkdir -p <folder>
 cd <folder>
-vagrant init tnarik/solaris10
+vagrant init tnarik/solaris10-u11-full
 ```
 
 And now you can edit the generated `Vagrantfile` to specify the provider in the descriptor itself to avoid verbose vagrant invocations:
@@ -107,7 +98,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 If you don't need or want the version support, you can also add the baseboxes directly from the file system via:
 
 ```
-vagrant box add --name tnarik/solaris10 "${OUTPUT}/vagrant/solaris10-vmware.box" --force
+vagrant box add --name tnarik/solaris10-u11-full "${OUTPUT}/vagrant/solaris10-u11-full-vmware.box" --force
 ```
 
 ### Speed up testing (via Test Kitchen)
@@ -120,9 +111,9 @@ Just take a look at the script and modify to use the base box you wish. This scr
 
 ### Versioning
 
-Versioning of the virtual machines takes place via the `metadata.json`. These versions should be linked to git tags, but don't expect to find version `0.0.1` there.
+Versioning of the virtual machines takes place via the `metadata.json`. These versions should be linked to git tags, but don't expect to find version `0.0.1` there as this tagging and versioning was introduced after the initial `0.0.1`.
 
-Between versions, the `metadata.json` files could reflect any version number (released version or future version) but should reflect the future one (the one being developed, even if there is no active development on it).
+Between versions, the `metadata.json` files could reflect any version number (released version or future version) but should ideally reflect the future one (the one being developed, even if there is no active development on it).
 
 ## Caveats
 ### VMWare

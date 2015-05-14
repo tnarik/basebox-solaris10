@@ -5,6 +5,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "tnarik/solaris10-u8-minimal"
+  config.ssh.insert_key = false
   config.vm.provider "vmware_fusion" do |vm|
     vm.vmx["ethernet0.pcislotnumber"] = "33"
   end
@@ -33,6 +34,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "tnarik/solaris10-u8-full"
+  config.ssh.insert_key = false
   config.vm.provider "vmware_fusion" do |vm|
     vm.vmx["ethernet0.pcislotnumber"] = "33"
   end

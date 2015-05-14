@@ -22,7 +22,9 @@ chroot /a /usr/sbin/groupadd ${VAGRANTUSER}
 chroot /a /usr/sbin/useradd -m -d /export/home/${VAGRANTUSER} -s /usr/bin/bash -g ${VAGRANTUSER} ${VAGRANTUSER}
 
 PASSWD=`perl -e 'print crypt($ARGV[0], substr(rand(data),2));' vagrant`
-cat /a/etc/shadow | sed -e 's#^'${VAGRANTUSER}':UP:#'${VAGRANTUSER}':'${PASSWD}'#g'  > /tmp/shadow.$$
+# Depending on the Solaris version the user will be created in status:
+#   UpdatePassword ( UP -> u11 ) or Locked ( *LK* -> u8 )
+cat /a/etc/shadow | sed -e 's#^'${VAGRANTUSER}':[^:]*:#'${VAGRANTUSER}':'${PASSWD}'#g'  > /tmp/shadow.$$
 cat /tmp/shadow.$$ > /a/etc/shadow
 
 

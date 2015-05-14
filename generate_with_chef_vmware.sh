@@ -4,7 +4,7 @@ cat <<EOF > Vagrantfile
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "tnarik/solaris10-minimal"
+  config.vm.box = "tnarik/solaris10-u8-minimal"
   config.vm.provider "vmware_fusion" do |vm|
     vm.vmx["ethernet0.pcislotnumber"] = "33"
   end
@@ -32,7 +32,7 @@ cat <<EOF > Vagrantfile
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "tnarik/solaris10"
+  config.vm.box = "tnarik/solaris10-u8-full"
   config.vm.provider "vmware_fusion" do |vm|
     vm.vmx["ethernet0.pcislotnumber"] = "33"
   end

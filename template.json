@@ -1,7 +1,9 @@
 {
   "variables": {
-    "ISOUrl": "file:///Users/tnarik/Desktop/sol-10-u8-ga-x86-dvd.iso",
-    "ISOChecksum" : "1f1f59a179e74874bb4db0b0a168ba88",
+    "update_suffix": "u11",
+    "distro": "full",
+    "ISOUrl": "file:///Users/tnarik/Desktop/sol-10-u11-ga-x86-dvd.iso",
+    "ISOChecksum" : "aae1452bb3d56baa3dcb8866ce7e4a08",
     "output_base": "."
     },
   "provisioners": [
@@ -29,7 +31,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{ user `output_base` }}/vagrant/solaris10-{{ .BuildName }}.box",
+      "output": "{{ user `output_base` }}/vagrant/solaris10-{{ user `update_suffix` }}-{{ user `distro` }}-{{ .BuildName }}.box",
       "keep_input_artifact": true
     }
   ],
@@ -47,11 +49,11 @@
       "boot_wait": "10s",
       "disk_size": 65140,
       "floppy_files": [
-        "floppy/sysidcfg",
+        "floppy/{{ user `update_suffix` }}/sysidcfg",
         "floppy/rules",
         "floppy/rules.ok",
         "floppy/begin",
-        "floppy/profile",
+        "floppy/{{ user `distro` }}/profile",
         "floppy/finish"
       ],
       "headless": true,
@@ -86,14 +88,14 @@
       "boot_wait": "10s",
       "disk_size": 65140,
       "floppy_files": [
-        "floppy/sysidcfg",
+        "floppy/{{ user `update_suffix` }}/sysidcfg",
         "floppy/rules",
         "floppy/rules.ok",
         "floppy/begin",
-        "floppy/profile",
+        "floppy/{{ user `distro` }}/profile",
         "floppy/finish"
       ],
-      "headless": true,
+      "headless": false,
       "guest_os_type": "solaris10-64",
       "iso_checksum": "{{ user `ISOChecksum` }}",
       "iso_checksum_type": "md5",
@@ -125,11 +127,11 @@
       "boot_wait": "10s",
       "disk_size": 65140,
       "floppy_files": [
-        "floppy/sysidcfg",
+        "floppy/{{ user `update_suffix` }}/sysidcfg",
         "floppy/rules",
         "floppy/rules.ok",
         "floppy/begin",
-        "floppy/profile",
+        "floppy/{{ user `distro` }}/profile",
         "floppy/finish"
       ],
       "guest_os_type": "solaris-10",

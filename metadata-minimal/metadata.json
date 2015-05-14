@@ -1,5 +1,5 @@
 {
-  "name": "tnarik/solaris10-minimal",
+  "name": "tnarik/solaris10-u8-minimal",
   "description": "This box contains Solaris 10",
   "version": "0.1.0",
   "provider": "virtualbox",
@@ -8,13 +8,13 @@
     "status": "active",
     "providers": [{
       "name": "virtualbox",
-      "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-minimal-virtualbox.box"
+      "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-u8-minimal-virtualbox.box"
     },{
       "name": "vmware_desktop",
-       "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-minimal-vmware.box"
+       "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-u8-minimal-vmware.box"
     },{
       "name": "parallels",
-       "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-minimal-parallels.box"
+       "url": "file:///Users/tnarik/Desktop/output/vagrant/solaris10-u8-minimal-parallels.box"
     }
     ]
   }]

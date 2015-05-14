@@ -1,9 +1,24 @@
 OUTPUT="${HOME}/Desktop/output"
-packer build -force -only=virtualbox,vmware -var "output_base=${OUTPUT}" minimal_template.json
-packer build -force -only=parallels -var "output_base=${OUTPUT}" minimal_template.json
-packer build -force -only=virtualbox,vmware -var "output_base=${OUTPUT}" template.json
-packer build -force -only=parallels -var "output_base=${OUTPUT}" template.json
-mkdir -p ${OUTPUT}/solaris10/.
-cp metadata/metadata.json ${OUTPUT}/solaris10/.
-mkdir -p ${OUTPUT}/solaris10-minimal/.
-cp metadata-minimal/metadata.json ${OUTPUT}/solaris10-minimal/.
+UPDATE="u8" # u8 / u11
+DISTRO="full" # full / reduced / minimal
+
+DISTRO="full"
+packer build -force -only=vmware -var-file=${UPDATE}.json -var "output_base=${OUTPUT}" -var "distro=${DISTRO}" template.json
+mkdir -p ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/.
+UPDATE="u8" DISTRO="full" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
+
+DISTRO="minimal"
+packer build -force -only=vmware -var-file=${UPDATE}.json -var "output_base=${OUTPUT}" -var "distro=${DISTRO}" template.json
+mkdir -p ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/.
+UPDATE="u8" DISTRO="minimal" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
+
+UPDATE="u11"
+DISTRO="full"
+packer build -force -only=vmware -var-file=${UPDATE}.json -var "output_base=${OUTPUT}" -var "distro=${DISTRO}" template.json
+mkdir -p ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/.
+UPDATE="u11" DISTRO="full" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
+
+DISTRO="minimal"
+packer build -force -only=vmware -var-file=${UPDATE}.json -var "output_base=${OUTPUT}" -var "distro=${DISTRO}" template.json
+mkdir -p ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/.
+UPDATE="u11" DISTRO="minimal" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json

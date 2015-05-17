@@ -26,6 +26,7 @@ cd package
 tar cvzf package.box ./*
 vagrant destroy -f
 vagrant box add --name tnarik/solaris10-u8-minimal-with-chef package.box
+cd ..
 
 rm Vagrantfile
 cat <<EOF > Vagrantfile

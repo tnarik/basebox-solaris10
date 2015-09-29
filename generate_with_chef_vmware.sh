@@ -3,8 +3,8 @@ cat <<EOF > Vagrantfile
 
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
-Vagrant.configure("2") do |config|
-  config.vm.box = "tnarik/solaris10-u8-minimal"
+Vagrant.configure(2) do |config|
+  config.vm.box = "tnarik/solaris10-u9-minimal"
   config.ssh.insert_key = false
   config.vm.provider "vmware_fusion" do |vm|
     vm.vmx["ethernet0.pcislotnumber"] = "33"
@@ -25,7 +25,7 @@ cd package
 /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k disk.vmdk
 tar cvzf package.box ./*
 vagrant destroy -f
-vagrant box add --name tnarik/solaris10-u8-minimal-with-chef package.box
+vagrant box add --name tnarik/solaris10-u9-minimal-with-chef package.box
 cd ..
 
 rm Vagrantfile
@@ -33,8 +33,8 @@ cat <<EOF > Vagrantfile
 
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
-Vagrant.configure("2") do |config|
-  config.vm.box = "tnarik/solaris10-u8-full"
+Vagrant.configure(2) do |config|
+  config.vm.box = "tnarik/solaris10-u9-full"
   config.ssh.insert_key = false
   config.vm.provider "vmware_fusion" do |vm|
     vm.vmx["ethernet0.pcislotnumber"] = "33"
@@ -55,4 +55,4 @@ cd package
 /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k disk.vmdk
 tar cvzf package.box ./*
 vagrant destroy -f
-vagrant box add --name tnarik/solaris10-u8-full-with-chef package.box
+vagrant box add --name tnarik/solaris10-u9-full-with-chef package.box

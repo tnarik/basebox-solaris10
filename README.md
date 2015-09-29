@@ -2,7 +2,7 @@
 
 Use these [Packer](https://packer.io/) templates to generate Solaris 10 boxes for different providers.
 
-This set of templates and configuration files is meant to be used with [Packer](https://packer.io/). The latest version tested is 0.7.5 (0.7.2 worked for non Parallels builds).
+This set of templates and configuration files is meant to be used with [Packer](https://packer.io/). The latest version tested is `0.7.5` (`0.7.2` worked for non Parallels builds). Testing undergoing for `0.8.6`.
 
 # Setup
 
@@ -12,10 +12,11 @@ Due to the distribution methods of Solaris, you will need to download these imag
 
 You can find the latest from [http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html](http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html)
 
-Version tested are:
+Versions tested are:
 
- * 1/13 (Oracle Solaris 10, x86).
- * 10/09 (Oracle Solaris 10, x86).
+ * 10/09 (Oracle Solaris 10, x86) - u8
+ * 9/10 (Oracle Solaris 10, x86) - u9
+ * 1/13 (Oracle Solaris 10, x86) - u11
 
 To use a different version you should change the iso filename and the checksum. This can be added to `<update version>.json` files such as `u8.json`.
 
@@ -32,7 +33,7 @@ After this is done, you can either abort the instance creation process or delete
 
 Initially three different templates were provided, but the building process has been modified to use a single one with some variables that select Solaris profiles and names:
 
- * `template.json` : installation of Solaris 10, using the default update (u11) and distro (full, with a full loaded GUI).
+ * `template.json` : installation of Solaris 10, using the default update (u9) and distro (full, with a full loaded GUI).
 
    ```
    packer build -var 'output_base=/Users/tnarik/Desktop/output' template.json
@@ -41,7 +42,7 @@ Initially three different templates were provided, but the building process has 
    To select a different update level or distribution:
 
    ```
-    -var-file=u8.json -var ""distro=minimal"
+    -var-file=u9.json -var ""distro=minimal"
    ```
 
 
@@ -74,7 +75,7 @@ If you want to use version support directly from your filesystem, you can genera
 
 ```
 mkdir -p "${OUTPUT}/solaris10/"
-UPDATE="u11" DISTRO="full" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
+UPDATE="u9" DISTRO="full" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
 ```
 
 You can find the `sample_build.sh` and `sample_build_all.sh` script as examples on the whole generation chain.
@@ -83,10 +84,10 @@ You can find the `sample_build.sh` and `sample_build_all.sh` script as examples 
 As a result, you would be able to add the boxes to vagrant via the metadata descriptor, selecting the desired provider directly during the import.
 
 ```
-vagrant box add "${OUTPUT}/solaris10-u11-full/metadata.json"
+vagrant box add "${OUTPUT}/solaris10-u9-full/metadata.json"
 mkdir -p <folder>
 cd <folder>
-vagrant init tnarik/solaris10-u11-full
+vagrant init tnarik/solaris10-u9-full
 ```
 
 And now you can edit the generated `Vagrantfile` to specify the provider in the descriptor itself to avoid verbose vagrant invocations:
@@ -98,7 +99,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 If you don't need or want the version support, you can also add the baseboxes directly from the file system via:
 
 ```
-vagrant box add --name tnarik/solaris10-u11-full "${OUTPUT}/vagrant/solaris10-u11-full-vmware.box" --force
+vagrant box add --name tnarik/solaris10-u9-full "${OUTPUT}/vagrant/solaris10-u9-full-vmware.box" --force
 ```
 
 ### Speed up testing (via Test Kitchen)
@@ -124,4 +125,4 @@ When creating a vagrant box base on the VMware provider, the `pcislotnumber` nee
 vb.vmx["ethernet0.pcislotnumber"] = "33"
 ```
 
-It looks like the Vagrant VMware Fusion Plugin uses a template to recreate the vmx file (or at least in some conditions), and this messes up with the interface names, resulting in a non-networked box.  
+It looks like the Vagrant VMware Fusion Plugin uses a template to recreate the vmx file (or at least in some conditions, or VMWare does this), and this messes up with the interface names, resulting in a non-networked box.  

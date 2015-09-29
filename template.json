@@ -2,8 +2,8 @@
   "variables": {
     "update_suffix": "u11",
     "distro": "full",
-    "ISOUrl": "file:///Users/tnarik/Desktop/sol-10-u11-ga-x86-dvd.iso",
-    "ISOChecksum" : "aae1452bb3d56baa3dcb8866ce7e4a08",
+    "ISOUrl": "file:///Users/tnarik/Desktop/sol-10-u9-ga-x86-dvd.iso",
+   "ISOChecksum" : "c96bb1fb33081231c72c93add331e338",
     "output_base": "."
     },
   "provisioners": [

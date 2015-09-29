@@ -1,6 +1,6 @@
 OUTPUT="${HOME}/Desktop/output"
 DISTRO="full" # full / reduced / minimal
-UPDATE="u8" # u8 / u11
+UPDATE="u9" # u8 / u9 / u11
 packer build -force -only=virtualbox,vmware -var-file=${UPDATE}.json -var "output_base=${OUTPUT}" -var "distro=${DISTRO}" template.json
 packer build -force -only=parallels -var-file=${UPDATE}.json -var "output_base=${OUTPUT}" -var "distro=${DISTRO}" template.json
 

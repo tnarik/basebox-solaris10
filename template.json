@@ -3,7 +3,7 @@
     "update_suffix": "u11",
     "distro": "full",
     "ISOUrl": "file:///Users/tnarik/Desktop/sol-10-u9-ga-x86-dvd.iso",
-   "ISOChecksum" : "c96bb1fb33081231c72c93add331e338",
+    "ISOChecksum" : "c96bb1fb33081231c72c93add331e338",
     "output_base": "."
     },
   "provisioners": [

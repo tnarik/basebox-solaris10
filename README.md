@@ -18,7 +18,7 @@ Versions tested are:
  * 9/10 (Oracle Solaris 10, x86) - u9
  * 1/13 (Oracle Solaris 10, x86) - u11
 
-To use a different version you should change the iso filename and the checksum. This can be added to `<update version>.json` files such as `u8.json`.
+To use a different version you should change the ISO filename and the checksum. This can be added to `<update version>.json` files such as `u8.json`.
 
 ## Provider setup
 
@@ -55,14 +55,14 @@ Initially three different templates were provided, but the building process has 
 
 There is a metadata definition for version local support (without using VagrantCloud/Atlas), based on ERB templates.
 
-The resulting metadata defintions can be used as base, adapting the `url` paths to you working environment.
+The resulting metadata defintions can be used as base, adapting the `url` paths to your working environment.
 
 
 ## Advice
 
 ### Speed up development/testing
 
-If you are modifying this images and going through several iterations of testing, it is advisable creating a script that triggers the whole chain of builds and setup.
+If you are modifying these images and going through several iterations of testing, it is advisable creating a script that triggers the whole chain of builds and setups.
 
 Typically you would want to select one of the templates building statements and limit the execution to a number of builders via `-only=`, as in:
 
@@ -78,7 +78,7 @@ mkdir -p "${OUTPUT}/solaris10/"
 UPDATE="u9" DISTRO="full" erb metadata/metadata.json.erb > ${OUTPUT}/solaris10-${UPDATE}-${DISTRO}/metadata.json
 ```
 
-You can find the `sample_build.sh` and `sample_build_all.sh` script as examples on the whole generation chain.
+You can find the `sample_build.sh` and `sample_build_all.sh` scripts as examples on the whole generation chain.
 
 
 As a result, you would be able to add the boxes to vagrant via the metadata descriptor, selecting the desired provider directly during the import.
